@@ -1,0 +1,5 @@
+*.save
+*.swp
+__pycache__/
+*.pyc
+

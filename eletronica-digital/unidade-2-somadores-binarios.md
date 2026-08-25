@@ -132,3 +132,4 @@ print(resultado)
 - [Fábrica de Noobs — Somadores e Subtratores](https://youtu.be/IQkYBmNVo_U?si=Emn0QLTxCkYRWWFc)
 - [Global Science Network — Full Adder](https://www.gsnetwork.com/full-adder/)
 - [Circuit Digest — Full Adder Circuit and its Construction](https://circuitdigest.com/tutorial/full-adder-circuit-theory-truth-table-construction)
+-  meu irmão!
