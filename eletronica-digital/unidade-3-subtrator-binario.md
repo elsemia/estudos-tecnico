@@ -33,10 +33,18 @@ pela primeira vez — o código rodava sem erro de sintaxe, mas calculava
 
 ## Complemento de dois — revisão rápida
 
-O Complemento de dois de um número X, em N bits é definido como: Comp2 = 2^N - X   -> complemento de dois é igual a dois elevado à n bits de um número x.
-Uma forma de representar os números negativos em binário é com o método de Complemento de Dois.
-O método se constitui na aritimética modular: em valor de 4 bits, o seu valor máximo é 1111 e o próximo valor seguinte a é 0000.
-Para a representação negativa, devemos então inverter todos os bits de seu número e somar 1 após a inversão.
+O Complemento de dois de um número X, em N bits é definido como: 
+Comp2 = 2^N - X.
+
+
+O método se baseia em aritmética modular: em 4 bits, o valor máximo é
+`1111`, e o próximo valor depois dele "estoura" e volta para `0000` — a
+mesma lógica de um odômetro que passa de `999999` para `000000`.
+
+Na prática, calcular o complemento de dois de um número tem dois passos:
+
+1. Inverter todos os bits do número.
+2. Somar 1 ao resultado da inversão.
 
 ### Complemento de um (inverter os bits)
 
@@ -227,15 +235,32 @@ print(subtrator_completo(A, B))   # [0, 0, 1, 1, 0] -> 10 - 4 = 6
 ## Erros que apareci ao longo do caminho (e o que aprendi com eles)
 
 - `.insert()` sem a proteção de cópia — chamou `.insert()` diretamente em `A` e `B` dentro de `subtrator_completo`, alterando as listas originais fora da função (antes de adicionar `A = A[:]` e `B = B[:]`).
-- Chamada de função sem parênteses — `somador_completo(complemento_de_dois, B)` passou a função `complemento_de_dois` em si (sem chamar), em vez de `complemento_de_dois(A)`. Deu `TypeError: 'function' object is not subscriptable`.
-- Argumento no formato errado — `somador_completo(comp_dois, 1)` passou o número `1` sozinho, quando `somador_completo` esperava uma lista (`[1]`).
-- Subtração de tipos incompatíveis — `1 - nums` tentando subtrair de uma string (`nums` vinha de `A` sem conversão com `int()`), gerando `TypeError: unsupported operand type(s) for -: 'int' and 'str'`.
-- Argumento invertido na fórmula do complemento de dois — `complemento_de_dois(A)` em vez de `complemento_de_dois(B)`, calculando `-A + B` em vez de `A - B` (resultado com sinal trocado).
-- `max()` com parênteses errados — `max(len(A), len(B) + 1)` aplicava o `+1` só a `len(B)`, em vez de aplicar ao resultado do `max()` inteiro.
-- `.append()` em vez de `.insert()`, com argumentos errados — `A.append(0, 0)` (dois problemas: `.append()` só aceita um argumento, e insere no final, não no início).
-- Fatiamento com índices errados pra remover o carry extra — tentativas com `[:-5]` e `[-5:-1]` antes de chegar em `[-bits_de_folga:]`, cada uma cortando a parte errada da lista.
-- O caso especial do `2^(N-1)` — `B = 100` (4 em 3 bits) sendo seu próprio complemento de dois, fazendo a subtração dar resultado errado até adicionar o bit de folga.
+  * SEMPRE COPIAR A LISTA DENTRO DA FUNÇÃO!
 
+- Chamada de função sem parênteses — `somador_completo(complemento_de_dois, B)` passou a função `complemento_de_dois` em si (sem chamar), em vez de `complemento_de_dois(A)`. Deu `TypeError: 'function' object is not subscriptable`.
+  * ME ATENTAR AOS PARÊNTESES E ARGS
+
+- Argumento no formato errado — `somador_completo(comp_dois, 1)` passou o número `1` sozinho, quando `somador_completo` esperava uma lista (`[1]`).
+  * ME ATENTAR AOS PARÊNTESES E ARGS
+
+- Subtração de tipos incompatíveis — `1 - nums` tentando subtrair de uma string (`nums` vinha de `A` sem conversão com `int()`), gerando `TypeError: unsupported operand type(s) for -: 'int' and 'str'`.
+  * VALORES NA LISTA SÃO STRING. CONVERTER C/ INT()
+
+- Argumento invertido na fórmula do complemento de dois — `complemento_de_dois(A)` em vez de `complemento_de_dois(B)`, calculando `-A + B` em vez de `A - B` (resultado com sinal trocado).
+  * NÃO ME ATENTEI À FÓRMULA A + (-B). ERRO DE LÓGICA, NÃO DE SINTAXE.
+
+- `max()` com parênteses errados — `max(len(A), len(B) + 1)` aplicava o `+1` só a `len(B)`, em vez de aplicar ao resultado do `max()` inteiro.
+  * CONFERIR ONDE CADA PARÊNTESE ABRE E FECHA, PRINCIPALMENTE COM FUNÇÕES ANINHADAS
+
+- `.append()` em vez de `.insert()`, com argumentos errados — `A.append(0, 0)` (dois problemas: `.append()` só aceita um argumento, e insere no final, não no início).
+  * .APPEND() SEMPRE VAI PRO FINAL. .INSERT(POSIÇÃO, VALOR) PRA POSIÇÃO ESPECÍFICA
+
+- Fatiamento com índices errados pra remover o carry extra — tentativas com `[:-5]` e `[-5:-1]` antes de chegar em `[-bits_de_folga:]`, cada uma cortando a parte errada da lista.
+  * [INÍCIO:FIM:PASSO] — TESTAR MENTALMENTE COM LISTA PEQUENA ANTES É LEGAL
+
+- O caso especial do `2^(N-1)` — `B = 100` (4 em 3 bits) sendo seu próprio complemento de dois, fazendo a subtração dar resultado errado até adicionar o bit de folga.
+  * NÚMEROS NA METADE EXATA DA FAIXA DE BITS SÃO CASO ESPECIAL. SEMPRE RESERVAR +1 BIT DE FOLGA!
+    
 ## Materiais de apoio
 
 - https://youtu.be/iEoQg52G1bA?si=-DulHG7SGSmB2IOD - Emmanuel Andrade - Somador-Subtrator
