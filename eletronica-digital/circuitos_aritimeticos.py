@@ -26,7 +26,7 @@ def somador_completo(A,B):
         resultado.append(total % 2)  # juntando bit de resultado da soma à lista
         carry = total // 2  # atualizando carry
     if carry > 0:  # se o carry, depois da última iteração, estiver com valor 1, ele é o bit mais significativo
-
+        
         resultado.append(carry)
 
     resultado.reverse()  # a lista foi construída do bit menos significativo para o mais significativo — precisa inverter pra ficar na ordem de leitura normal
